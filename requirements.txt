@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+pandas
+numpy
+yfinance
+requests
+beautifulsoup4
+transformers
+torch
+supabase
+python-dotenv
+scikit-learn
+google-generativeai
+pydantic-settings
+sentence-transformers
+pymupdf

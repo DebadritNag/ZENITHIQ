@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+:root {
+  --bg:       #0B0E11;
+  --surface:  #131720;
+  --surface2: #1A1F2E;
+  --border:   #2B2F36;
+  --border2:  #3A3F4A;
+  --text:     #E8EAF0;
+  --muted:    #5A6070;
+  --dim:      #3A3F4A;
+  --red:      #E31B23;
+  --red-dim:  #3D0A0C;
+  --green:    #00C805;
+  --green-dim:#002B01;
+  --amber:    #F59E0B;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root { height: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); }
+
+/* Scan-line overlay on the whole app */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Pulse animation for scanning state */
+@keyframes border-pulse {
+  0%, 100% { border-color: var(--border); }
+  50%       { border-color: var(--red); box-shadow: 0 0 8px rgba(227,27,35,0.3); }
+}
+.scanning { animation: border-pulse 1.2s ease-in-out infinite; }
+
+/* Blueprint overlay lines */
+@keyframes dash-draw {
+  from { stroke-dashoffset: 200; }
+  to   { stroke-dashoffset: 0; }
+}
+.blueprint-line { animation: dash-draw 0.6s ease forwards; }
+
+/* Verdict stamp */
+@keyframes stamp-in {
+  0%   { transform: rotate(-15deg) scale(2); opacity: 0; }
+  60%  { transform: rotate(-15deg) scale(0.95); opacity: 1; }
+  100% { transform: rotate(-15deg) scale(1); opacity: 1; }
+}
+.verdict-stamp { animation: stamp-in 0.4s cubic-bezier(0.175,0.885,0.32,1.275) forwards; }
+
+/* Terminal cursor blink */
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+.cursor::after {
+  content: '█';
+  animation: blink 1s step-end infinite;
+  color: var(--green);
+  margin-left: 2px;
+}
+
+/* Ticker scroll */
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.ticker-track { animation: ticker-scroll 40s linear infinite; }
+.ticker-track:hover { animation-play-state: paused; }
+
+/* Paper texture for filing column */
+.paper-texture {
+  background-color: #FAFAF7;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23FAFAF7'/%3E%3Crect x='0' y='0' width='1' height='1' fill='%23F0F0EC' opacity='0.5'/%3E%3C/svg%3E");
+}
